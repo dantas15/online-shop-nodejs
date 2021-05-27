@@ -1,7 +1,7 @@
-const Product = require("../models/product");
+const Product = require("../models/Product");
 
 exports.getAddProduct = (req, res, next) => {
-  res.render("add-product", {
+  res.render("admin/add-product", {
     pageTitle: "Add product",
     path: "/admin/add-product",
     formCSS: true,
@@ -16,12 +16,74 @@ exports.postAddProduct = (req, res, next) => {
   res.redirect("/");
 };
 
-exports.getProducts = (req, res, next) => {
+exports.getIndexPage = (req, res, next) => {
   Product.fetchAll((products) => {
-    res.render("shop", {
+    res.render("shop/index", {
       prods: products,
       pageTitle: "Shop",
       path: "/",
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true,
+    });
+  });
+};
+
+exports.getProducts = (req, res, next) => {
+  Product.fetchAll((products) => {
+    res.render("shop/products-list", {
+      prods: products,
+      pageTitle: "Products",
+      path: "/products",
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true,
+    });
+  });
+};
+
+exports.getCart = (req, res, next) => {
+  res.render("shop/cart", {
+    pageTitle: "Cart",
+    path: "/cart",
+    activeShop: true,
+    productCSS: true,
+  });
+};
+
+exports.getCheckout = (req, res, next) => {
+  res.render("shop/checkout", {
+    pageTitle: "Checkout",
+    path: "/checkout",
+    activeShop: true,
+    productCSS: true,
+  });
+};
+
+exports.getProductDetail = (req, res, next) => {
+  res.render("shop/product-detail", {
+    pageTitle: "Product Detail",
+    path: "/product-detail",
+    activeShop: true,
+    productCSS: true,
+  });
+};
+
+exports.getEditProduct = (req, res, next) => {
+  res.render("admin/edit-product", {
+    pageTitle: "Products",
+    path: "/admin/edit-product",
+    activeShop: true,
+    productCSS: true,
+  });
+};
+
+exports.getAdminProducts = (req, res, next) => {
+  Product.fetchAll((products) => {
+    res.render("admin/products-list", {
+      prods: products,
+      pageTitle: "Products",
+      path: "/admin/products",
       hasProducts: products.length > 0,
       activeShop: true,
       productCSS: true,
