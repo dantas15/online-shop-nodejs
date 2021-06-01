@@ -42,21 +42,3 @@ exports.getProductDetail = (req, res, next) => {
     path: "/product-detail",
   });
 };
-
-exports.getEditProduct = (req, res, next) => {
-  res.render("admin/edit-product", {
-    pageTitle: "Products",
-    path: "/admin/edit-product",
-  });
-};
-
-exports.getAdminProducts = (req, res, next) => {
-  Product.fetchAll((products) => {
-    res.render("admin/products", {
-      prods: products,
-      pageTitle: "Products",
-      path: "/admin/products",
-      hasProducts: products.length > 0,
-    });
-  });
-};
