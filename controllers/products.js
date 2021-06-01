@@ -31,7 +31,7 @@ exports.getIndexPage = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll((products) => {
-    res.render("shop/products-list", {
+    res.render("shop/products", {
       prods: products,
       pageTitle: "Products",
       path: "/products",
@@ -80,7 +80,7 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
   Product.fetchAll((products) => {
-    res.render("admin/products-list", {
+    res.render("admin/products", {
       prods: products,
       pageTitle: "Products",
       path: "/admin/products",
