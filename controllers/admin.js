@@ -27,7 +27,7 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.getAdminProducts = (req, res, next) => {
   Product.fetchAll((products) => {
-    res.render("admin/products", {
+    res.render("admin/products-list", {
       prods: products,
       pageTitle: "Products",
       path: "/admin/products",
