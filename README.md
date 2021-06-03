@@ -10,7 +10,7 @@ Online shop project for a Node.js course.
   - [x] Creating and using Models
 - [x] Store data in a JSON file
 - [ ] Using Dynamic Routes
-  - [ ] Extracting Dynamic Params
+  - [x] Extracting Dynamic Params
   - [ ] Using Query Params
 - [ ] Creating advanced models
   - [ ] Editing, deleting and displaying data
