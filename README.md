@@ -15,4 +15,4 @@ Online shop project for a Node.js course.
 - [x] Create advanced models
   - [x] Display data
   - [x] Edit Data
-  - [ ] Delete Data
+  - [x] Delete Data
