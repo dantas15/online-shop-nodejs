@@ -4,22 +4,22 @@ exports.getAddProduct = (req, res, next) => {
   res.render("admin/edit-product", {
     pageTitle: "Add product",
     path: "/admin/add-product",
-    editing: "false",
+    editing: false,
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
-  const imageURL = req.body.imageURL;
   const description = req.body.description;
   const price = req.body.price;
-
-  const product = new Product(null, title, imageURL, description, price);
-  product
-    .save()
-    .then(() => {
-      res.redirect("/");
-    })
+  const imageURL = req.body.imageURL;
+  Product.create({
+    title: title,
+    imageURL: imageURL,
+    description: description,
+    price: price,
+  })
+    .then((result) => console.log(result))
     .catch((err) => console.log(err));
 };
 
