@@ -4,6 +4,8 @@ const express = require("express");
 
 const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
+const Product = require("./models/Product");
+const User = require("./models/User");
 
 const app = express();
 
@@ -21,8 +23,11 @@ app.use(shopRoutes);
 
 app.use(errorController.getPageNotFound);
 
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Product);
+
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     // console.log(result);
     app.listen(3000);

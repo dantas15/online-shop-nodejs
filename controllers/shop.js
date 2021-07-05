@@ -22,7 +22,9 @@ exports.getProducts = (req, res, next) => {
         path: "/products",
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.getProduct = (req, res, next) => {
