@@ -62,7 +62,10 @@ sequelize
     return user.createCart();
   })
   .then((cart) => {
-    app.listen(3000);
+    const PORT = 3000;
+    app.listen(PORT, () => {
+      console.log(`App is running on http://localhost:${PORT} ✨`);
+    });
   })
   .catch((err) => {
     console.log(err);
