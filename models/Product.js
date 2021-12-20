@@ -1,19 +1,30 @@
 const getDB = require("../util/database").getDB;
-const ObjectId = require("mongodb").ObjectId;
+const mongodb = require("mongodb");
 
 class Product {
-  constructor({ title, price, description, imageURL }) {
+  constructor({ title, price, description, imageURL, id }) {
     this.title = title;
     this.price = price;
     this.description = description;
     this.imageURL = imageURL;
+    this._id = new mongodb.ObjectId(id);
   }
 
   save() {
     const db = getDB();
-    return db
-      .collection("products")
-      .insertOne(this)
+
+    let dbOp;
+
+    if (this._id) {
+      //Update
+      const query = { _id: mongodb.ObjectId(this._id) };
+      dbOp = db.collection("products").updateOne(query, { $set: this });
+    } else {
+      // Create new product
+      dbOp = db.collection("products").insertOne(this);
+    }
+
+    return dbOp
       .then((result) => {
         console.log(result);
       })
@@ -39,7 +50,7 @@ class Product {
   static findById(id) {
     const db = getDB();
 
-    const query = { _id: ObjectId(id) };
+    const query = { _id: mongodb.ObjectId(id) };
 
     return db
       .collection("products")
@@ -55,41 +66,10 @@ class Product {
       });
   }
 
-  static update({
-    prodId,
-    updatedTitle,
-    updatedPrice,
-    updatedDescription,
-    updatedImageURL,
-  }) {
-    const db = getDB();
-
-    const filter = { _id: ObjectId(prodId) };
-
-    const updatedProduct = {
-      $set: {
-        title: updatedTitle,
-        price: updatedPrice,
-        description: updatedDescription,
-        imageURL: updatedImageURL,
-      },
-    };
-
-    return db
-      .collection("products")
-      .updateOne(filter, updatedProduct)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   static delete(deleteProdId) {
     const db = getDB();
 
-    const query = { _id: ObjectId(deleteProdId) };
+    const query = { _id: mongodb.ObjectId(deleteProdId) };
 
     return db
       .collection("products")

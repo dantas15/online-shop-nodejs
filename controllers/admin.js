@@ -49,19 +49,22 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const prodId = req.body.productId;
-  const updatedTitle = req.body.title;
-  const updatedPrice = req.body.price;
-  const updatedImageURL = req.body.imageURL;
-  const updatedDescription = req.body.description;
+  const { productId, title, price, imageURL, description } = req.body;
 
-  Product.update({
-    prodId,
-    updatedTitle,
-    updatedPrice,
-    updatedImageURL,
-    updatedDescription,
-  })
+  const product = new Product({
+    id: productId,
+    title,
+    price,
+    imageURL,
+    description,
+  });
+  product.title = title;
+  product.price = price;
+  product.imageURL = imageURL;
+  product.description = description;
+
+  return product
+    .save()
     .then((result) => {
       console.log("Updated product!");
       res.redirect("/admin/products");
