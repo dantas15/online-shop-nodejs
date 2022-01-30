@@ -55,9 +55,7 @@ class Product {
 
     return db
       .collection("products")
-      .findOne(query, {
-        projection: { _id: 1, title: 1, price: 1, description: 1, imageURL: 1 },
-      })
+      .findOne(query)
       .then((product) => {
         console.log(product);
         return product;
