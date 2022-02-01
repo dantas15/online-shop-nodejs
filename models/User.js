@@ -63,7 +63,6 @@ class User {
       .find({ _id: { $in: productIds } })
       .toArray()
       .then((products) => {
-        console.log("products: " + typeof products);
         return products.map((p) => {
           return {
             ...p,
@@ -73,6 +72,21 @@ class User {
           };
         });
       });
+  }
+
+  deleteItemFromCart(productId) {
+    const updatedCartItems = this.cart.items.filter((item) => {
+      return item.productId.toString() !== productId.toString();
+    });
+
+    const db = getDB();
+
+    return db
+      .collection("users")
+      .updateOne(
+        { _id: mongodb.ObjectId(this._id) },
+        { $set: { cart: { items: updatedCartItems } } }
+      );
   }
 
   static findById(userId) {
