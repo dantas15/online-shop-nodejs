@@ -89,6 +89,37 @@ class User {
       );
   }
 
+  addOrder() {
+    const db = getDB();
+
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: mongodb.ObjectId(this._id),
+            name: this.name,
+          },
+        };
+        db.collection("orders").insertOne(order);
+      })
+      .then((result) => {
+        this.cart = { items: [] };
+        return db
+          .collection("users")
+          .updateOne(
+            { _id: mongodb.ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          );
+      });
+  }
+
+  getOrders() {
+    const db = getDB();
+
+    // return db.collection()
+  }
+
   static findById(userId) {
     const db = getDB();
 
