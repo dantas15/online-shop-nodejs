@@ -95,24 +95,18 @@ exports.postOrder = (req, res, next) => {
     });
 };
 
-// exports.getOrders = (req, res, next) => {
-//   req.user
-//     .getOrders({ include: ["products"] })
-//     .then((orders) => {
-//       res.render("shop/orders", {
-//         pageTitle: "Your orders",
-//         path: "/orders",
-//         orders: orders,
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
-
-// exports.getProductDetail = (req, res, next) => {
-//   res.render("shop/product-detail", {
-//     pageTitle: "Product Detail",
-//     path: "/product-detail",
-//   });
-// };
+exports.getOrders = (req, res, next) => {
+  req.user
+    .getOrders()
+    .then((orders) => {
+      console.log(orders);
+      res.render("shop/orders", {
+        pageTitle: "Your orders",
+        path: "/orders",
+        orders: orders,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
