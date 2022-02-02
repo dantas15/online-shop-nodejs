@@ -2,7 +2,7 @@ const Product = require("../models/Product");
 const { ObjectId } = require("mongodb");
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       res.render("shop/index", {
         prods: products,
@@ -14,9 +14,8 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
-      console.log(products);
       res.render("shop/products-list", {
         prods: products,
         pageTitle: "Products",
