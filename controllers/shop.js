@@ -43,12 +43,14 @@ exports.getProduct = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
   req.user
-    .getCart()
-    .then((products) => {
+    .populate("cart.items.productId")
+    .then((user) => {
+      const products = user.cart.items;
+
       res.render("shop/cart", {
         pageTitle: "Cart",
         path: "/cart",
-        products: products,
+        products,
       });
     })
     .catch((err) => {
@@ -64,7 +66,6 @@ exports.postCart = (req, res, next) => {
       return req.user.addToCart(product);
     })
     .then((result) => {
-      console.log(result);
       res.redirect("/cart");
     });
 };
@@ -73,7 +74,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
 
   req.user
-    .deleteItemFromCart(prodId)
+    .removeFromCart(prodId)
     .then((product) => {
       res.redirect("/cart");
     })
