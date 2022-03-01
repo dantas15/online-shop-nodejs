@@ -105,16 +105,15 @@ exports.postOrder = (req, res, next) => {
       order.save();
     })
     .then((result) => {
-      res.redirect("/orders");
+      return req.user.clearCart();
     })
+    .then(() => res.redirect("/orders"))
     .catch((err) => console.log(err));
 };
 
 exports.getOrders = (req, res, next) => {
-  req.user
-    .getOrders()
+  Order.find({ "user.userId": req.user._id })
     .then((orders) => {
-      console.log(orders);
       res.render("shop/orders", {
         pageTitle: "Your orders",
         path: "/orders",
