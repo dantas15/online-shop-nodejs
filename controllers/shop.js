@@ -1,7 +1,5 @@
 const Product = require("../models/Product");
 const Order = require("../models/Order");
-const { ObjectId } = require("mongodb");
-
 exports.getIndex = (req, res, next) => {
   Product.find()
     .then((products) => {
@@ -11,7 +9,9 @@ exports.getIndex = (req, res, next) => {
         path: "/",
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 exports.getProducts = (req, res, next) => {
@@ -19,7 +19,7 @@ exports.getProducts = (req, res, next) => {
     .then((products) => {
       res.render("shop/products-list", {
         prods: products,
-        pageTitle: "Products",
+        pageTitle: "All products",
         path: "/products",
       });
     })
@@ -49,7 +49,7 @@ exports.getCart = (req, res, next) => {
       const products = user.cart.items;
 
       res.render("shop/cart", {
-        pageTitle: "Cart",
+        pageTitle: "Your cart",
         path: "/cart",
         products,
       });
@@ -76,7 +76,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 
   req.user
     .removeFromCart(prodId)
-    .then((product) => {
+    .then((result) => {
       res.redirect("/cart");
     })
     .catch((err) => {
@@ -102,12 +102,14 @@ exports.postOrder = (req, res, next) => {
         },
         products,
       });
-      order.save();
+      return order.save();
     })
     .then((result) => {
       return req.user.clearCart();
     })
-    .then(() => res.redirect("/orders"))
+    .then(() => {
+      res.redirect("/orders");
+    })
     .catch((err) => console.log(err));
 };
 
